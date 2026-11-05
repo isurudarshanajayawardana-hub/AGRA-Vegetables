@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AGRA | ඔබේ සැඟවුණු වියදම ගණනය කරන්න</title>
+<meta name="description" content="මාකට් යන ගමනේ සැඟවුණු වියදම විනාඩියෙන් ගණනය කරන්න. AGRA, කඳුකරයේ නැවුම්බව, ඔබේ මුළුතැන්ගෙට.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Noto+Sans+Sinhala:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF3EF; --surface: #FFFFFF; --ink: #1D3328; --muted: #55665C; --line: #D5DED8; --field: #F6F8F6;
+    --green: #1F4D36; --green-ink: #1F4D36; --tint: #E3F0DF; --hidden: #FDEFE3; --hidden-ink: #9A4A14; --bad: #A3264B;
+    --orange: #E07A1F; --wa: #1FA855;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111915; --surface: #1A2520; --ink: #E4ECE6; --muted: #A2B2A8; --line: #2C3A33; --field: #131C17;
+      --green: #1F4D36; --green-ink: #7FD09A; --tint: #1F3A2A; --hidden: #3A2716; --hidden-ink: #F3B37A; --bad: #EE8AA6;
+      --orange: #F0994A; --wa: #25D366;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111915; --surface: #1A2520; --ink: #E4ECE6; --muted: #A2B2A8; --line: #2C3A33; --field: #131C17;
+    --green: #1F4D36; --green-ink: #7FD09A; --tint: #1F3A2A; --hidden: #3A2716; --hidden-ink: #F3B37A; --bad: #EE8AA6;
+    --orange: #F0994A; --wa: #25D366;
+    color-scheme: dark;
+  }
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Noto Sans Sinhala", Outfit, system-ui, sans-serif; font-size: 16px; line-height: 1.55; }
+  .num { font-family: Outfit, system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+  header { background: var(--green); color: #FFFFFF; padding: 22px 18px 26px; }
+  .wrap { max-width: 560px; margin: 0 auto; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand b { font-family: Outfit, sans-serif; font-size: 22px; letter-spacing: 0.14em; }
+  .brand span { font-size: 12.5px; color: #C9D8CE; display: block; }
+  h1 { font-size: 27px; line-height: 1.35; margin: 16px 0 6px; font-weight: 800; }
+  h1 em { font-style: normal; color: #F6B26B; }
+  header p { margin: 0; color: #DCE6DF; font-size: 15px; }
+  main { padding: 16px 14px 40px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+  h2 { font-size: 17px; margin: 0 0 12px; font-weight: 800; color: var(--green-ink); }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .hint { display: block; font-weight: 500; font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .stepper { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--field); }
+  .stepper button { flex: 0 0 52px; font: inherit; font-size: 24px; font-weight: 700; border: 0; background: transparent; color: var(--green-ink); cursor: pointer; }
+  .stepper input { flex: 1 1 auto; min-width: 0; text-align: center; font-family: Outfit, sans-serif; font-size: 20px; font-weight: 700; border: 0; border-left: 1px solid var(--line); border-right: 1px solid var(--line); background: transparent; color: var(--ink); padding: 10px 6px; }
+  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .seg button { flex: 1 1 0; min-width: 120px; font: inherit; font-size: 14.5px; font-weight: 700; padding: 10px 8px; border-radius: 12px; border: 1px solid var(--line); background: var(--field); color: var(--ink); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--green); color: #FFFFFF; border-color: var(--green); }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  details { margin-top: 4px; }
+  summary { cursor: pointer; font-weight: 700; color: var(--green-ink); font-size: 15px; padding: 4px 0; }
+  .result { background: var(--green); color: #FFFFFF; border-radius: 18px; padding: 18px; margin-bottom: 14px; }
+  .result .k { margin: 0; font-size: 15px; color: #DCE6DF; }
+  .result .big { margin: 4px 0 2px; font-size: 46px; font-weight: 900; line-height: 1.05; color: #F6B26B; }
+  .result .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .result .box { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 12px; }
+  .result .box .k { font-size: 13px; }
+  .result .box .v { margin: 2px 0 0; font-size: 22px; font-weight: 800; }
+  .receipt { background: var(--surface); border: 1px solid var(--line); border-radius: 16px 16px 6px 6px; padding: 16px; margin-bottom: 14px; }
+  .line { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 15.5px; }
+  .line + .line { border-top: 1px dashed var(--line); }
+  .line .v { font-family: Outfit, sans-serif; font-weight: 700; white-space: nowrap; }
+  .hidden { background: var(--hidden); border-radius: 12px; padding: 4px 12px; margin: 6px -4px; }
+  .hidden .tag { font-size: 13px; font-weight: 800; color: var(--hidden-ink); padding-top: 6px; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; border-top: 2px dashed var(--line); margin-top: 8px; padding-top: 12px; font-weight: 800; }
+  .total .v { font-family: Outfit, sans-serif; font-size: 28px; color: var(--bad); }
+  .agra { background: var(--tint); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+  .agra p { margin: 0 0 6px; font-weight: 700; }
+  .agra p.lead { font-size: 19px; font-weight: 800; color: var(--green-ink); }
+  .wa { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; text-decoration: none; background: var(--wa); color: #FFFFFF; font-weight: 800; font-size: 18px; padding: 15px 16px; border-radius: 14px; margin-top: 10px; }
+  .wa:hover { filter: brightness(1.05); }
+  .call { display: block; text-align: center; margin-top: 10px; color: var(--green-ink); font-weight: 700; text-decoration: none; }
+  .foot { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 10px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 120 120" role="img" aria-label="AGRA logo">
+        <defs><clipPath id="c"><path d="M14 108 L60 22 L106 108 Z"/></clipPath></defs>
+        <circle cx="90" cy="30" r="12" fill="#E8892B"/>
+        <g clip-path="url(#c)"><path d="M0 84 Q30 66 58 78 T120 72 L120 120 L0 120 Z" fill="#7FA68A"/><path d="M0 96 Q34 82 62 92 T120 88 L120 120 L0 120 Z" fill="#E9EFEA"/></g>
+        <path d="M10 110 L60 16 L110 110" fill="none" stroke="#E9EFEA" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <div><b>AGRA</b><span>කඳුකරයේ නැවුම්බව, ඔබේ මුළුතැන්ගෙට</span></div>
+    </div>
+    <h1>ඔබ ගෙවන්නේ එළවළු වලට <em>විතරක්ද?</em></h1>
+    <p>මාකට් යන ගමනේ සැඟවුණු වියදම විනාඩියෙන් ගණනය කරන්න.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card" aria-labelledby="h-you">
+    <h2 id="h-you">ඔබේ ව්‍යාපාරය</h2>
+    <div class="field">
+      <label for="kg">දිනකට ගන්නා එළවළු (kg)</label>
+      <div class="stepper"><button type="button" data-step="kg:-1" aria-label="අඩු කරන්න">−</button><input id="kg" type="number" inputmode="decimal" min="1" step="1"><button type="button" data-step="kg:1" aria-label="වැඩි කරන්න">+</button></div>
+    </div>
+    <div class="field">
+      <label for="km">වෙළඳපොළට දුර (කි.මී., එක පැත්තකට)</label>
+      <div class="stepper"><button type="button" data-step="km:-1" aria-label="අඩු කරන්න">−</button><input id="km" type="number" inputmode="decimal" min="1" step="1"><button type="button" data-step="km:1" aria-label="වැඩි කරන්න">+</button></div>
+    </div>
+    <div class="field">
+      <label>මාකට් යන්නේ කොහොමද?</label>
+      <div class="seg" role="group" aria-label="ගමන් ක්‍රමය">
+        <button type="button" data-mode="tuk">ත්‍රීවීල් හයර් එකෙන්</button>
+        <button type="button" data-mode="own">තමන්ගේ වාහනයෙන්</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="hours">ගමනට යන කාලය (පැය)</label>
+      <div class="stepper"><button type="button" data-step="hours:-0.5" aria-label="අඩු කරන්න">−</button><input id="hours" type="number" inputmode="decimal" min="0" step="0.5"><button type="button" data-step="hours:0.5" aria-label="වැඩි කරන්න">+</button></div>
+    </div>
+
+    <details>
+      <summary>තවත් විස්තර වෙනස් කරන්න</summary>
+      <div class="field" style="margin-top: 12px">
+        <label for="price">එළවළු සාමාන්‍ය මිල (රු./kg)<span class="hint">වෙළඳපොළේ ඔබ ගෙවන මිල</span></label>
+        <div class="stepper"><button type="button" data-step="price:-10" aria-label="අඩු කරන්න">−</button><input id="price" type="number" inputmode="decimal" min="1" step="10"><button type="button" data-step="price:10" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+      <div class="field">
+        <label for="rate">ශ්‍රමය සහ ව්‍යාපාරයට අහිමි කාලයේ වටිනාකම (රු./පැය)<span class="hint">සේවක වැටුප සහ ඔබ ව්‍යාපාරයෙන් ඉවත්ව සිටින කාලය</span></label>
+        <div class="stepper"><button type="button" data-step="rate:-50" aria-label="අඩු කරන්න">−</button><input id="rate" type="number" inputmode="decimal" min="0" step="50"><button type="button" data-step="rate:50" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+      <div class="field">
+        <label for="waste">විසිකරන නරක් එළවළු (%)</label>
+        <div class="stepper"><button type="button" data-step="waste:-1" aria-label="අඩු කරන්න">−</button><input id="waste" type="number" inputmode="decimal" min="0" max="50" step="1"><button type="button" data-step="waste:1" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+      <div class="field" id="f-wait">
+        <label for="wait">ත්‍රීවීල් රැඳී සිටීම (රු.)</label>
+        <div class="stepper"><button type="button" data-step="wait:-50" aria-label="අඩු කරන්න">−</button><input id="wait" type="number" inputmode="decimal" min="0" step="50"><button type="button" data-step="wait:50" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+      <div class="field" id="f-fuel">
+        <label for="fuel">වාහනයේ ඉන්ධන වියදම (රු./කි.මී.)</label>
+        <div class="stepper"><button type="button" data-step="fuel:-5" aria-label="අඩු කරන්න">−</button><input id="fuel" type="number" inputmode="decimal" min="0" step="5"><button type="button" data-step="fuel:5" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+      <div class="field">
+        <label for="extra">පෝටර්, බෑග්, පාකින් (රු., එක ගමනකට)</label>
+        <div class="stepper"><button type="button" data-step="extra:-50" aria-label="අඩු කරන්න">−</button><input id="extra" type="number" inputmode="decimal" min="0" step="50"><button type="button" data-step="extra:50" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+      <div class="field">
+        <label for="days">මාසෙට ව්‍යාපාරික දින</label>
+        <div class="stepper"><button type="button" data-step="days:-1" aria-label="අඩු කරන්න">−</button><input id="days" type="number" inputmode="decimal" min="1" max="31" step="1"><button type="button" data-step="days:1" aria-label="වැඩි කරන්න">+</button></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="result" aria-live="polite" aria-labelledby="h-res">
+    <p class="k" id="h-res">1kg එකකට ඔබ නොදැනුවත්වම ගෙවන අමතර මුදල</p>
+    <p class="big num" id="o-kg">—</p>
+    <div class="row2">
+      <div class="box"><p class="k">මාසෙට</p><p class="v num" id="o-month">—</p></div>
+      <div class="box"><p class="k">අවුරුද්දට</p><p class="v num" id="o-year">—</p></div>
+    </div>
+  </section>
+
+  <section class="receipt" aria-labelledby="h-rc">
+    <h2 id="h-rc">ඔබේ ඇත්ත වියදම (1kg)</h2>
+    <div class="line"><span>එළවළු මිල</span><span class="v" id="l-price">—</span></div>
+    <div class="hidden">
+      <div class="tag">සැඟවුණු වියදම්</div>
+      <div class="line"><span id="l-trip-label">ත්‍රීවීල් ගාස්තුව</span><span class="v" id="l-trip">—</span></div>
+      <div class="line"><span>ශ්‍රම වියදම සහ ව්‍යාපාරයට අහිමි කාලය</span><span class="v" id="l-time">—</span></div>
+      <div class="line"><span>විසිකරන නරක් එළවළු</span><span class="v" id="l-waste">—</span></div>
+    </div>
+    <div class="total"><span>ඇත්ත වියදම</span><span class="v" id="l-total">—</span></div>
+  </section>
+
+  <section class="agra" aria-labelledby="h-agra">
+    <p class="lead" id="h-agra">AGRA සමඟ මේ සැඟවුණු වියදම් නැහැ.</p>
+    <p>මාකට් මිලට වඩා අඩුවෙන්, ඔබේ දොරකඩටම. WhatsApp ඇණවුම් · ඉක්මන් බෙදාහැරීම · උසස් තත්ත්වයේ එළවළු.</p>
+    <a class="wa" id="wa" href="https://wa.me/94719009446" target="_blank" rel="noopener">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.9 7L4 20l1.1-3.9A8 8 0 1 1 20 12z"/><path d="M9 9.5c.3 1.8 1.7 3.6 3.6 4.6l1.2-1 1.7.8"/></svg>
+      AGRA ට WhatsApp කරන්න
+    </a>
+    <a class="call" href="tel:+94719009446">නැත්නම් අමතන්න: <span class="num">071 900 9446</span></a>
+  </section>
+
+  <p class="foot">මෙය ඇස්තමේන්තුවකි. ත්‍රීවීල් ගාස්තු: පළමු කි.මී. රු. 110, ඊළඟ කි.මී. එකකට රු. 90 (බස්නාහිර පළාත, 2026 මාර්තු), ගමන යාම සහ ඒම.</p>
+</main>
+
+<script>
+const DEF = { kg: 15, km: 10, mode: "tuk", hours: 3, price: 400, rate: 500, waste: 8, wait: 300, fuel: 30, extra: 200, days: 26 };
+const s = { ...DEF };
+const FIELDS = ["kg","km","hours","price","rate","waste","wait","fuel","extra","days"];
+const $ = (id) => document.getElementById(id);
+const nf = new Intl.NumberFormat("en-LK", { maximumFractionDigits: 0 });
+const rs = (v) => "රු. " + nf.format(Math.round(v));
+
+function fill() {
+  for (const f of FIELDS) $(f).value = s[f];
+  for (const b of document.querySelectorAll("[data-mode]")) b.setAttribute("aria-pressed", String(b.dataset.mode === s.mode));
+  $("f-wait").hidden = s.mode !== "tuk";
+  $("f-fuel").hidden = s.mode !== "own";
+}
+
+function calc() {
+  const kg = Math.max(1, s.kg), w = Math.min(0.5, Math.max(0, s.waste / 100));
+  const transport = s.mode === "tuk" ? 110 + Math.max(0, 2 * s.km - 1) * 90 + s.wait : 2 * s.km * s.fuel;
+  const tripKg = Math.round((transport + s.extra) / kg);
+  const timeKg = Math.round((s.hours * s.rate) / kg);
+  const wasteKg = Math.round(s.price * (w / (1 - w)));
+  const hidden = tripKg + timeKg + wasteKg;
+  const month = hidden * kg * s.days;
+  $("o-kg").textContent = rs(hidden);
+  $("o-month").textContent = rs(month);
+  $("o-year").textContent = rs(month * 12);
+  $("l-price").textContent = rs(s.price);
+  $("l-trip-label").textContent = s.mode === "tuk" ? "ත්‍රීවීල් ගාස්තුව" : "ඉන්ධන සහ ගමන් වියදම";
+  $("l-trip").textContent = rs(tripKg);
+  $("l-time").textContent = rs(timeKg);
+  $("l-waste").textContent = rs(wasteKg);
+  $("l-total").textContent = rs(s.price + hidden);
+  const msg = `ආයුබෝවන් AGRA! ඔබේ calculator එකෙන් මගේ සැඟවුණු වියදම මාසෙට ${rs(month)} ක් කියලා ගණනය වුණා (දිනකට kg ${nf.format(kg)}). කරුණාකර මට මේ සතියේ මිල ලැයිස්තුව එවන්න.`;
+  $("wa").href = "https://wa.me/94719009446?text=" + encodeURIComponent(msg);
+}
+
+for (const f of FIELDS) $(f).addEventListener("input", (e) => {
+  const v = Number(e.target.value);
+  if (e.target.value === "" || !isFinite(v) || v < 0) return;
+  s[f] = v; calc();
+});
+for (const b of document.querySelectorAll("[data-step]")) b.addEventListener("click", () => {
+  const [f, d] = b.dataset.step.split(":");
+  const min = f === "kg" || f === "km" || f === "price" || f === "days" ? 1 : 0;
+  s[f] = Math.max(min, Math.round((s[f] + Number(d)) * 10) / 10);
+  if (f === "waste") s[f] = Math.min(50, s[f]);
+  fill(); calc();
+});
+for (const b of document.querySelectorAll("[data-mode]")) b.addEventListener("click", () => { s.mode = b.dataset.mode; fill(); calc(); });
+fill(); calc();
+</script>
+</body>
+</html>
